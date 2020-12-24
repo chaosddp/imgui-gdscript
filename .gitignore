@@ -1,0 +1,7 @@
+*.obj
+src/imgui*
+src/imstb*
+vc*.*db
+.sconsign.dblite
+build.bat
+demo/.mono/

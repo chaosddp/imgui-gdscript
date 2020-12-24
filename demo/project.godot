@@ -1,0 +1,41 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "ImGui",
+"language": "NativeScript",
+"path": "res://bin/imgui/imgui.gdns"
+}, {
+"base": "Node",
+"class": "ImGuiConstants",
+"language": "GDScript",
+"path": "res://bin/imgui/constants.gd"
+}, {
+"base": "Node",
+"class": "ImGuiHelpers",
+"language": "GDScript",
+"path": "res://bin/imgui/helpers.gd"
+} ]
+_global_script_class_icons={
+"ImGui": "",
+"ImGuiConstants": "",
+"ImGuiHelpers": ""
+}
+
+[application]
+
+config/name="demo"
+run/main_scene="res://Main.tscn"
+config/icon="res://icon.png"
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
