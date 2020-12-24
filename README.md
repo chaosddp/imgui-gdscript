@@ -23,7 +23,7 @@ scons platform=<platform> target=release
 The libary will output into dist folder, copy all dist/bin to your project root.
 
 
-``gdscript
+```gdscript
 
 extends Node2D
 
