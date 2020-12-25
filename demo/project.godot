@@ -19,15 +19,15 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://bin/imgui/constants.gd"
 }, {
-"base": "Node",
-"class": "ImGuiHelpers",
+"base": "Reference",
+"class": "ImGuiHelper",
 "language": "GDScript",
-"path": "res://bin/imgui/helpers.gd"
+"path": "res://bin/imgui/helper.gd"
 } ]
 _global_script_class_icons={
 "ImGui": "",
 "ImGuiConstants": "",
-"ImGuiHelpers": ""
+"ImGuiHelper": ""
 }
 
 [application]

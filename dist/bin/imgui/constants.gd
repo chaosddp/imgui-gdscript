@@ -2,232 +2,232 @@ extends Node
 
 class_name ImGuiConstants
 
-# flags to create a new window
-const window_flags_none:= 0
-const window_flags_no_title_bar:= 1 << 0
-const window_flags_no_resize:= 1 << 1
-const window_flags_no_move:= 1 << 2
-const window_flags_no_scrollbar:= 1 << 3
-const window_flags_no_scroll_with_mouse:= 1 << 4
-const window_flags_no_collapse:= 1 << 5
-const window_flags_always_auto_resize:= 1 << 6
-const window_flags_no_background:= 1 << 7
-const window_flags_no_saved_settings:= 1 << 8
-const window_flags_no_mouse_inputs:= 1 << 9
-const window_flags_menubar:= 1 << 10
-const window_flags_horizontal_scrollbar:= 1 << 11
-const window_flags_no_focus_on_appearing:= 1 << 12
-const window_flags_no_bring_to_front_on_focus:= 1 << 13
-const window_flags_always_vertical_scrollbar:= 1 << 14
-const window_flags_always_horizontal_scrollbar:= 1 << 15
-const window_flags_always_use_window_padding:= 1 << 16
-const window_flags_no_nav_inputs:= 1 << 18
-const window_flags_no_nav_focus:= 1 << 19
-const window_flags_unsaved_document:= 1 << 20
-const window_flags_no_nav:= window_flags_no_nav_inputs | window_flags_no_nav_focus
-const window_flags_no_decoration:= window_flags_no_title_bar | window_flags_no_resize | window_flags_no_scrollbar | window_flags_no_collapse
-const window_flags_no_inputs:= window_flags_no_mouse_inputs | window_flags_no_nav_inputs | window_flags_no_nav
+# FLAGS TO CREATE A NEW WINDOW
+const WINDOW_FLAGS_NONE:= 0
+const WINDOW_FLAGS_NO_TITLE_BAR:= 1 << 0
+const WINDOW_FLAGS_NO_RESIZE:= 1 << 1
+const WINDOW_FLAGS_NO_MOVE:= 1 << 2
+const WINDOW_FLAGS_NO_SCROLLBAR:= 1 << 3
+const WINDOW_FLAGS_NO_SCROLL_WITH_MOUSE:= 1 << 4
+const WINDOW_FLAGS_NO_COLLAPSE:= 1 << 5
+const WINDOW_FLAGS_ALWAYS_AUTO_RESIZE:= 1 << 6
+const WINDOW_FLAGS_NO_BACKGROUND:= 1 << 7
+const WINDOW_FLAGS_NO_SAVED_SETTINGS:= 1 << 8
+const WINDOW_FLAGS_NO_MOUSE_INPUTS:= 1 << 9
+const WINDOW_FLAGS_MENUBAR:= 1 << 10
+const WINDOW_FLAGS_HORIZONTAL_SCROLLBAR:= 1 << 11
+const WINDOW_FLAGS_NO_FOCUS_ON_APPEARING:= 1 << 12
+const WINDOW_FLAGS_NO_BRING_TO_FRONT_ON_FOCUS:= 1 << 13
+const WINDOW_FLAGS_ALWAYS_VERTICAL_SCROLLBAR:= 1 << 14
+const WINDOW_FLAGS_ALWAYS_HORIZONTAL_SCROLLBAR:= 1 << 15
+const WINDOW_FLAGS_ALWAYS_USE_WINDOW_PADDING:= 1 << 16
+const WINDOW_FLAGS_NO_NAV_INPUTS:= 1 << 18
+const WINDOW_FLAGS_NO_NAV_FOCUS:= 1 << 19
+const WINDOW_FLAGS_UNSAVED_DOCUMENT:= 1 << 20
+const WINDOW_FLAGS_NO_NAV:= WINDOW_FLAGS_NO_NAV_INPUTS | WINDOW_FLAGS_NO_NAV_FOCUS
+const WINDOW_FLAGS_NO_DECORATION:= WINDOW_FLAGS_NO_TITLE_BAR | WINDOW_FLAGS_NO_RESIZE | WINDOW_FLAGS_NO_SCROLLBAR | WINDOW_FLAGS_NO_COLLAPSE
+const WINDOW_FLAGS_NO_INPUTS:= WINDOW_FLAGS_NO_MOUSE_INPUTS | WINDOW_FLAGS_NO_NAV_INPUTS | WINDOW_FLAGS_NO_NAV
 
-# dir flags, for array_button
-const dir_none:= -1
-const dir_left:= 0
-const dir_right:= 1
-const dir_up:= 2
-const dir_down:= 3
+# DIR FLAGS, FOR ARRAY_BUTTON
+const DIR_NONE:= -1
+const DIR_LEFT:= 0
+const DIR_RIGHT:= 1
+const DIR_UP:= 2
+const DIR_DOWN:= 3
 
-# combo flags, used for begin_combo
-const combo_flags_none:= 0
-const combo_flags_popup_align_left:= 1 << 0
-const combo_flags_height_small:= 1 << 1
-const combo_flags_height_regular:= 1 << 2
-const combo_flags_height_large:= 1 << 3
-const combo_flags_height_largest:= 1 << 4
-const combo_flags_no_arrow_button:= 1 << 5
-const combo_flags_no_preview:= 1 << 6
+# COMBO FLAGS, USED FOR BEGIN_COMBO
+const COMBO_FLAGS_NONE:= 0
+const COMBO_FLAGS_POPUP_ALIGN_LEFT:= 1 << 0
+const COMBO_FLAGS_HEIGHT_SMALL:= 1 << 1
+const COMBO_FLAGS_HEIGHT_REGULAR:= 1 << 2
+const COMBO_FLAGS_HEIGHT_LARGE:= 1 << 3
+const COMBO_FLAGS_HEIGHT_LARGEST:= 1 << 4
+const COMBO_FLAGS_NO_ARROW_BUTTON:= 1 << 5
+const COMBO_FLAGS_NO_PREVIEW:= 1 << 6
 
-# selectable flags
-const selectable_flags_none:= 0
-const selectable_flags_dont_close_popups:= 1 << 0
-const selectable_flags_span_all_columns:= 1 << 1
-const selectable_flags_allow_double_click:= 1 << 2
-const selectable_flags_disabled:= 1 << 3
-const selectable_flags_allow_item_overlap:= 1 << 4
+# SELECTABLE FLAGS
+const SELECTABLE_FLAGS_NONE:= 0
+const SELECTABLE_FLAGS_DONT_CLOSE_POPUPS:= 1 << 0
+const SELECTABLE_FLAGS_SPAN_ALL_COLUMNS:= 1 << 1
+const SELECTABLE_FLAGS_ALLOW_DOUBLE_CLICK:= 1 << 2
+const SELECTABLE_FLAGS_DISABLED:= 1 << 3
+const SELECTABLE_FLAGS_ALLOW_ITEM_OVERLAP:= 1 << 4
 
-# slider flag for drag_xxx
-const slider_flags_none:= 0
-const slider_flags_always_clamp:= 1 << 4
-const slider_flags_logarithmic:= 1 << 5
-const slider_flags_no_round_to_format:= 1 << 6
+# SLIDER FLAG FOR DRAG_XXX
+const SLIDER_FLAGS_NONE:= 0
+const SLIDER_FLAGS_ALWAYS_CLAMP:= 1 << 4
+const SLIDER_FLAGS_LOGARITHMIC:= 1 << 5
+const SLIDER_FLAGS_NO_ROUND_TO_FORMAT:= 1 << 6
 
-# input text flags, for input_xxx
-const input_text_flags_none:= 0
-const input_text_flags_chars_decimal:= 1 << 0
-const input_text_flags_chars_hexadecimal:= 1 << 1
-const input_text_flags_chars_Uppercase:= 1 << 2
-const input_text_flags_chars_no_blank:= 1 << 3
-const input_text_flags_auto_select_all:= 1 << 4
-const input_text_flags_allow_tab_input:= 1 << 10
-const input_text_flags_ctrl_enter_for_newline:= 1 << 11
-const input_text_flags_no_horizontal_scroll:= 1 << 12
-const input_text_flags_always_insert_mode:= 1 << 13
-const input_text_flags_readonly:= 1 << 14
-const input_text_flags_password:= 1 << 15
-const input_text_flags_no_undo_redo:= 1 << 16
-const inutt_text_flags_chars_scientific:= 1 << 17
+# INPUT TEXT FLAGS, FOR INPUT_XXX
+const INPUT_TEXT_FLAGS_NONE:= 0
+const INPUT_TEXT_FLAGS_CHARS_DECIMAL:= 1 << 0
+const INPUT_TEXT_FLAGS_CHARS_HEXADECIMAL:= 1 << 1
+const INPUT_TEXT_FLAGS_CHARS_UPPERCASE:= 1 << 2
+const INPUT_TEXT_FLAGS_CHARS_NO_BLANK:= 1 << 3
+const INPUT_TEXT_FLAGS_AUTO_SELECT_ALL:= 1 << 4
+const INPUT_TEXT_FLAGS_ALLOW_TAB_INPUT:= 1 << 10
+const INPUT_TEXT_FLAGS_CTRL_ENTER_FOR_NEWLINE:= 1 << 11
+const INPUT_TEXT_FLAGS_NO_HORIZONTAL_SCROLL:= 1 << 12
+const INPUT_TEXT_FLAGS_ALWAYS_INSERT_MODE:= 1 << 13
+const INPUT_TEXT_FLAGS_READONLY:= 1 << 14
+const INPUT_TEXT_FLAGS_PASSWORD:= 1 << 15
+const INPUT_TEXT_FLAGS_NO_UNDO_REDO:= 1 << 16
+const INUTT_TEXT_FLAGS_CHARS_SCIENTIFIC:= 1 << 17
 
-# color edit flags
-const color_edit_flags_none:= 0
-const color_edit_flags_no_alpha:= 1 << 1
-const color_edit_flags_no_picker:= 1 << 2
-const color_edit_flags_no_options:= 1 << 3
-const color_edit_flags_no_small_preview:= 1 << 4
-const color_edit_flags_no_inputs:= 1 << 5
-const color_edit_flags_no_tooltip:= 1 <<6
-const color_edit_flags_no_label:= 1 << 7
-const color_edit_flags_no_side_preview:= 1 << 8
-const color_edit_flags_no_drag_drop:= 1 << 9
-const color_edit_flags_no_border:= 1 << 10
+# COLOR EDIT FLAGS
+const COLOR_EDIT_FLAGS_NONE:= 0
+const COLOR_EDIT_FLAGS_NO_ALPHA:= 1 << 1
+const COLOR_EDIT_FLAGS_NO_PICKER:= 1 << 2
+const COLOR_EDIT_FLAGS_NO_OPTIONS:= 1 << 3
+const COLOR_EDIT_FLAGS_NO_SMALL_PREVIEW:= 1 << 4
+const COLOR_EDIT_FLAGS_NO_INPUTS:= 1 << 5
+const COLOR_EDIT_FLAGS_NO_TOOLTIP:= 1 <<6
+const COLOR_EDIT_FLAGS_NO_LABEL:= 1 << 7
+const COLOR_EDIT_FLAGS_NO_SIDE_PREVIEW:= 1 << 8
+const COLOR_EDIT_FLAGS_NO_DRAG_DROP:= 1 << 9
+const COLOR_EDIT_FLAGS_NO_BORDER:= 1 << 10
 
-const color_edit_flags_alpha_bar:= 1 << 16
-const color_edit_flags_alpha_preview:= 1 << 17
-const color_edit_flags_alpha_preview_half:= 1 << 18
-const color_edit_flags_hdr:= 1 << 19
-const color_edit_flags_display_rgb:= 1 << 20
-const color_edit_flags_display_hsv:= 1 << 21
-const color_edit_flags_display_hex:= 1 << 22
-const color_edit_flags_uint8:= 1 << 23
-const color_edit_flags_float:= 1 << 24
-const color_edit_flags_picker_hue_bar:= 1 << 25
-const color_edit_flags_picker_hue_wheel:= 1 << 26
-const color_edit_flags_input_rgb:= 1 << 27
-const color_edit_flags_input_hsv:= 1 << 28
+const COLOR_EDIT_FLAGS_ALPHA_BAR:= 1 << 16
+const COLOR_EDIT_FLAGS_ALPHA_PREVIEW:= 1 << 17
+const COLOR_EDIT_FLAGS_ALPHA_PREVIEW_HALF:= 1 << 18
+const COLOR_EDIT_FLAGS_HDR:= 1 << 19
+const COLOR_EDIT_FLAGS_DISPLAY_RGB:= 1 << 20
+const COLOR_EDIT_FLAGS_DISPLAY_HSV:= 1 << 21
+const COLOR_EDIT_FLAGS_DISPLAY_HEX:= 1 << 22
+const COLOR_EDIT_FLAGS_UINT8:= 1 << 23
+const COLOR_EDIT_FLAGS_FLOAT:= 1 << 24
+const COLOR_EDIT_FLAGS_PICKER_HUE_BAR:= 1 << 25
+const COLOR_EDIT_FLAGS_PICKER_HUE_WHEEL:= 1 << 26
+const COLOR_EDIT_FLAGS_INPUT_RGB:= 1 << 27
+const COLOR_EDIT_FLAGS_INPUT_HSV:= 1 << 28
 
-const color_edit_flags_options_default:= color_edit_flags_uint8 | color_edit_flags_display_rgb | color_edit_flags_input_rgb | color_edit_flags_picker_hue_bar
+const COLOR_EDIT_FLAGS_OPTIONS_DEFAULT:= COLOR_EDIT_FLAGS_UINT8 | COLOR_EDIT_FLAGS_DISPLAY_RGB | COLOR_EDIT_FLAGS_INPUT_RGB | COLOR_EDIT_FLAGS_PICKER_HUE_BAR
 
-# gui condition
-const gui_cond_none: = 0
-const gui_cond_always: = 1 << 0
-const gui_cond_once: = 1 << 1
-const gui_cond_first_use_ever: = 1 << 2
-const gui_cond_appearing: = 1 << 3
+# GUI CONDITION
+const GUI_COND_NONE: = 0
+const GUI_COND_ALWAYS: = 1 << 0
+const GUI_COND_ONCE: = 1 << 1
+const GUI_COND_FIRST_USE_EVER: = 1 << 2
+const GUI_COND_APPEARING: = 1 << 3
 
-# flags for tree node
-const tree_node_flags_none: = 0
-const tree_node_flags_selected: = 1 << 0
-const tree_node_flags_framed: = 1 << 1
-const tree_node_flags_allow_item_overlap: = 1 << 2
-const tree_node_flags_no_tree_push_on_open: = 1 << 3
-const tree_node_flags_no_auto_open_on_log: = 1 << 4
-const tree_node_flags_default_open: = 1 << 5
-const tree_node_flags_open_on_double_click: = 1 << 6
-const tree_node_flags_open_on_arrow: = 1 << 7
-const tree_node_flags_leaf: = 1 << 8
-const tree_node_flags_bullet: = 1 << 9
-const tree_node_flags_frame_padding: = 1 << 10
-const tree_node_flags_span_avail_width: = 1 << 11
-const tree_node_flags_span_full_width: = 1 << 12
-const tree_node_flags_nav_left_jumps_back_here: = 1 << 13
+# FLAGS FOR TREE NODE
+const TREE_NODE_FLAGS_NONE: = 0
+const TREE_NODE_FLAGS_SELECTED: = 1 << 0
+const TREE_NODE_FLAGS_FRAMED: = 1 << 1
+const TREE_NODE_FLAGS_ALLOW_ITEM_OVERLAP: = 1 << 2
+const TREE_NODE_FLAGS_NO_TREE_PUSH_ON_OPEN: = 1 << 3
+const TREE_NODE_FLAGS_NO_AUTO_OPEN_ON_LOG: = 1 << 4
+const TREE_NODE_FLAGS_DEFAULT_OPEN: = 1 << 5
+const TREE_NODE_FLAGS_OPEN_ON_DOUBLE_CLICK: = 1 << 6
+const TREE_NODE_FLAGS_OPEN_ON_ARROW: = 1 << 7
+const TREE_NODE_FLAGS_LEAF: = 1 << 8
+const TREE_NODE_FLAGS_BULLET: = 1 << 9
+const TREE_NODE_FLAGS_FRAME_PADDING: = 1 << 10
+const TREE_NODE_FLAGS_SPAN_AVAIL_WIDTH: = 1 << 11
+const TREE_NODE_FLAGS_SPAN_FULL_WIDTH: = 1 << 12
+const TREE_NODE_FLAGS_NAV_LEFT_JUMPS_BACK_HERE: = 1 << 13
 
-const tree_node_flags_collapsing_header: = tree_node_flags_framed | tree_node_flags_no_tree_push_on_open | tree_node_flags_no_auto_open_on_log
+const TREE_NODE_FLAGS_COLLAPSING_HEADER: = TREE_NODE_FLAGS_FRAMED | TREE_NODE_FLAGS_NO_TREE_PUSH_ON_OPEN | TREE_NODE_FLAGS_NO_AUTO_OPEN_ON_LOG
 
-# tabbar
-const tab_bar_flags_none: = 0
-const tab_bar_flags_reorderable: = 1 << 0
-const tab_bar_flags_auto_select_new_tab: = 1 << 1
-const tab_bar_flags_tab_list_popup_button: = 1 << 2
-const tab_bar_flags_no_closed_with_middle_mouse_button: = 1 << 3
-const tab_bar_flags_no_tab_list_scrolling_buttons: = 1 << 4
-const tab_bar_flags_no_tooltip: = 1 << 5
-const tab_bar_flags_fitting_policy_resize_down: = 1 << 6
-const tab_bar_flags_fitting_policy_scroll: = 1 << 7
+# TABBAR
+const TAB_BAR_FLAGS_NONE: = 0
+const TAB_BAR_FLAGS_REORDERABLE: = 1 << 0
+const TAB_BAR_FLAGS_AUTO_SELECT_NEW_TAB: = 1 << 1
+const TAB_BAR_FLAGS_TAB_LIST_POPUP_BUTTON: = 1 << 2
+const TAB_BAR_FLAGS_NO_CLOSED_WITH_MIDDLE_MOUSE_BUTTON: = 1 << 3
+const TAB_BAR_FLAGS_NO_TAB_LIST_SCROLLING_BUTTONS: = 1 << 4
+const TAB_BAR_FLAGS_NO_TOOLTIP: = 1 << 5
+const TAB_BAR_FLAGS_FITTING_POLICY_RESIZE_DOWN: = 1 << 6
+const TAB_BAR_FLAGS_FITTING_POLICY_SCROLL: = 1 << 7
 
-# tab item
-const tab_item_flags_none: = 0
-const tab_item_flags_unsaved_document: = 1 << 0
-const tab_item_flags_set_selected: = 1 << 1
-const tab_item_flags_no_close_with_middle_mouse_button: = 1 << 2
-const tab_item_flags_no_push_id: = 1 << 3
-const tab_item_flags_no_tooltip: = 1 << 4
-const tab_item_flags_no_recorder: = 1 << 5
-const tab_item_flags_leading: = 1 << 6
-const tab_item_flags_trailing: = 1 << 7
+# TAB ITEM
+const TAB_ITEM_FLAGS_NONE: = 0
+const TAB_ITEM_FLAGS_UNSAVED_DOCUMENT: = 1 << 0
+const TAB_ITEM_FLAGS_SET_SELECTED: = 1 << 1
+const TAB_ITEM_FLAGS_NO_CLOSE_WITH_MIDDLE_MOUSE_BUTTON: = 1 << 2
+const TAB_ITEM_FLAGS_NO_PUSH_ID: = 1 << 3
+const TAB_ITEM_FLAGS_NO_TOOLTIP: = 1 << 4
+const TAB_ITEM_FLAGS_NO_RECORDER: = 1 << 5
+const TAB_ITEM_FLAGS_LEADING: = 1 << 6
+const TAB_ITEM_FLAGS_TRAILING: = 1 << 7
 
-# popup flags
-const popup_flags_none: = 0
-const popup_flags_mouse_button_left: = 1 << 0
-const popup_flags_mouse_button_right: = 1 << 1
-const popup_flags_mouse_button_middle: = 1 << 2
-const popup_flags_no_open_over_existing_popup: = 1 << 5
-const popup_flags_no_open_over_items: = 1 << 6
-const popup_flags_any_popup_id: = 1 << 7
-const popup_flags_any_popup_level: = 1 << 8
+# POPUP FLAGS
+const POPUP_FLAGS_NONE: = 0
+const POPUP_FLAGS_MOUSE_BUTTON_LEFT: = 1 << 0
+const POPUP_FLAGS_MOUSE_BUTTON_RIGHT: = 1 << 1
+const POPUP_FLAGS_MOUSE_BUTTON_MIDDLE: = 1 << 2
+const POPUP_FLAGS_NO_OPEN_OVER_EXISTING_POPUP: = 1 << 5
+const POPUP_FLAGS_NO_OPEN_OVER_ITEMS: = 1 << 6
+const POPUP_FLAGS_ANY_POPUP_ID: = 1 << 7
+const POPUP_FLAGS_ANY_POPUP_LEVEL: = 1 << 8
 
-# table flags for begin_table
-const table_flags_none: = 0
-const table_flags_resizable: = 1 << 0
-const table_flags_reorderable: = 1 << 1
-const table_flags_hidable: = 1 << 2
-const table_flags_sortabl: = 1 << 3
-const table_flags_no_saved_settings: = 1 << 4
-const table_flags_context_menu_in_body: = 1 << 5
-const table_flags_row_bg: = 1 << 6
-const table_flags_borders_inner_h: = 1 << 7
-const table_flags_borders_outer_h: = 1 << 8
-const table_flags_borders_inner_v: = 1 << 9
-const table_flags_borders_outer_v: = 1 << 10
-const table_flags_borders_h: = table_flags_borders_inner_h | table_flags_borders_outer_h
-const table_flags_borders_v: = table_flags_borders_inner_v | table_flags_borders_outer_v
-const table_flags_borders_inner: = table_flags_borders_inner_h | table_flags_borders_inner_v
-const table_flags_borders_outer: = table_flags_borders_outer_h | table_flags_borders_outer_v
-const table_flags_borders: = table_flags_borders_inner | table_flags_borders_outer
-const table_flags_no_borders_in_body: = 1 << 11
-const table_flags_no_borders_in_body_util_resize: = 1 << 12
-const table_flags_columns_width_stretch: = 1 << 13
-const table_flags_columns_width_fixed: = 1 << 14
-const table_flags_same_widths: = 1 << 15
-const table_flags_no_host_extend_y: = 1 << 17
-const table_flags_no_keep_columns_visible: = 1 << 18
-const table_flags_precised_widths: = 1 << 19
-const table_flags_no_clip: = 1 << 20
-const table_flags_pad_outer_x: = 1 << 21
-const table_flags_no_pad_outer_x: = 1 << 22
-const table_flags_no_pad_intter_x: = 1 << 23
-const table_flags_scroll_x: = 1 << 24
-const table_flags_scroll_y: = 1 << 25
-const table_flags_sort_multi: = 1 << 26
-const table_flags_sort_tristate: = 1 << 27
+# TABLE FLAGS FOR BEGIN_TABLE
+const TABLE_FLAGS_NONE: = 0
+const TABLE_FLAGS_RESIZABLE: = 1 << 0
+const TABLE_FLAGS_REORDERABLE: = 1 << 1
+const TABLE_FLAGS_HIDABLE: = 1 << 2
+const TABLE_FLAGS_SORTABL: = 1 << 3
+const TABLE_FLAGS_NO_SAVED_SETTINGS: = 1 << 4
+const TABLE_FLAGS_CONTEXT_MENU_IN_BODY: = 1 << 5
+const TABLE_FLAGS_ROW_BG: = 1 << 6
+const TABLE_FLAGS_BORDERS_INNER_H: = 1 << 7
+const TABLE_FLAGS_BORDERS_OUTER_H: = 1 << 8
+const TABLE_FLAGS_BORDERS_INNER_V: = 1 << 9
+const TABLE_FLAGS_BORDERS_OUTER_V: = 1 << 10
+const TABLE_FLAGS_BORDERS_H: = TABLE_FLAGS_BORDERS_INNER_H | TABLE_FLAGS_BORDERS_OUTER_H
+const TABLE_FLAGS_BORDERS_V: = TABLE_FLAGS_BORDERS_INNER_V | TABLE_FLAGS_BORDERS_OUTER_V
+const TABLE_FLAGS_BORDERS_INNER: = TABLE_FLAGS_BORDERS_INNER_H | TABLE_FLAGS_BORDERS_INNER_V
+const TABLE_FLAGS_BORDERS_OUTER: = TABLE_FLAGS_BORDERS_OUTER_H | TABLE_FLAGS_BORDERS_OUTER_V
+const TABLE_FLAGS_BORDERS: = TABLE_FLAGS_BORDERS_INNER | TABLE_FLAGS_BORDERS_OUTER
+const TABLE_FLAGS_NO_BORDERS_IN_BODY: = 1 << 11
+const TABLE_FLAGS_NO_BORDERS_IN_BODY_UTIL_RESIZE: = 1 << 12
+const TABLE_FLAGS_COLUMNS_WIDTH_STRETCH: = 1 << 13
+const TABLE_FLAGS_COLUMNS_WIDTH_FIXED: = 1 << 14
+const TABLE_FLAGS_SAME_WIDTHS: = 1 << 15
+const TABLE_FLAGS_NO_HOST_EXTEND_Y: = 1 << 17
+const TABLE_FLAGS_NO_KEEP_COLUMNS_VISIBLE: = 1 << 18
+const TABLE_FLAGS_PRECISED_WIDTHS: = 1 << 19
+const TABLE_FLAGS_NO_CLIP: = 1 << 20
+const TABLE_FLAGS_PAD_OUTER_X: = 1 << 21
+const TABLE_FLAGS_NO_PAD_OUTER_X: = 1 << 22
+const TABLE_FLAGS_NO_PAD_INTTER_X: = 1 << 23
+const TABLE_FLAGS_SCROLL_X: = 1 << 24
+const TABLE_FLAGS_SCROLL_Y: = 1 << 25
+const TABLE_FLAGS_SORT_MULTI: = 1 << 26
+const TABLE_FLAGS_SORT_TRISTATE: = 1 << 27
 
-# table background color
-const table_bg_target_none: = 0
-const table_bg_target_row_bg_0: = 1
-const table_bg_target_row_bg_1: = 2
-const table_bg_target_cell_bg: = 3
+# TABLE BACKGROUND COLOR
+const TABLE_BG_TARGET_NONE: = 0
+const TABLE_BG_TARGET_ROW_BG_0: = 1
+const TABLE_BG_TARGET_ROW_BG_1: = 2
+const TABLE_BG_TARGET_CELL_BG: = 3
 
-# table row flags, for table_next_row
-const table_row_flags_none: = 0
-const table_row_flags_headers: = 1 << 0
+# TABLE ROW FLAGS, FOR TABLE_NEXT_ROW
+const TABLE_ROW_FLAGS_NONE: = 0
+const TABLE_ROW_FLAGS_HEADERS: = 1 << 0
 
-# table column flags, for table_setup_column
-const table_column_flags_none: = 0
-const table_column_flags_default_hide: = 1 << 0
-const table_column_flags_default_sort: = 1 << 1
-const table_column_flags_width_stretch: = 1 << 2
-const table_column_flags_width_fixed: = 1 << 3
-const table_column_flags_width_auto_resize: = 1 << 4
-const table_column_flags_no_resize: = 1 << 5
-const table_column_flags_no_reorder: = 1 << 6
-const table_column_flags_no_hide: = 1 << 7
-const table_column_flags_no_clip: = 1 << 8
-const table_column_flags_no_sort: = 1 << 9
-const table_column_flags_no_sort_ascending: = 1 << 10
-const table_column_flags_no_sort_descending: = 1 << 11
-const table_column_flags_no_header_width: = 1 << 12
-const table_column_flags_prefer_sort_ascending: = 1 << 13
-const table_column_flags_prefer_sort_descending: = 1 << 14
-const table_column_flags_indent_enable: = 1 << 15
-const table_column_flags_indent_disable: = 1 << 16
+# TABLE COLUMN FLAGS, FOR TABLE_SETUP_COLUMN
+const TABLE_COLUMN_FLAGS_NONE: = 0
+const TABLE_COLUMN_FLAGS_DEFAULT_HIDE: = 1 << 0
+const TABLE_COLUMN_FLAGS_DEFAULT_SORT: = 1 << 1
+const TABLE_COLUMN_FLAGS_WIDTH_STRETCH: = 1 << 2
+const TABLE_COLUMN_FLAGS_WIDTH_FIXED: = 1 << 3
+const TABLE_COLUMN_FLAGS_WIDTH_AUTO_RESIZE: = 1 << 4
+const TABLE_COLUMN_FLAGS_NO_RESIZE: = 1 << 5
+const TABLE_COLUMN_FLAGS_NO_REORDER: = 1 << 6
+const TABLE_COLUMN_FLAGS_NO_HIDE: = 1 << 7
+const TABLE_COLUMN_FLAGS_NO_CLIP: = 1 << 8
+const TABLE_COLUMN_FLAGS_NO_SORT: = 1 << 9
+const TABLE_COLUMN_FLAGS_NO_SORT_ASCENDING: = 1 << 10
+const TABLE_COLUMN_FLAGS_NO_SORT_DESCENDING: = 1 << 11
+const TABLE_COLUMN_FLAGS_NO_HEADER_WIDTH: = 1 << 12
+const TABLE_COLUMN_FLAGS_PREFER_SORT_ASCENDING: = 1 << 13
+const TABLE_COLUMN_FLAGS_PREFER_SORT_DESCENDING: = 1 << 14
+const TABLE_COLUMN_FLAGS_INDENT_ENABLE: = 1 << 15
+const TABLE_COLUMN_FLAGS_INDENT_DISABLE: = 1 << 16
 
-const table_column_flags_is_enabled: = 1 << 20
-const table_column_flags_is_visible: = 1 << 21
-const table_column_flags_is_sorted: = 1 << 22
-const table_column_flags_is_hovered: = 1 << 23
+const TABLE_COLUMN_FLAGS_IS_ENABLED: = 1 << 20
+const TABLE_COLUMN_FLAGS_IS_VISIBLE: = 1 << 21
+const TABLE_COLUMN_FLAGS_IS_SORTED: = 1 << 22
+const TABLE_COLUMN_FLAGS_IS_HOVERED: = 1 << 23

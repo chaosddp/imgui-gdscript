@@ -23,6 +23,7 @@
 #include <Texture.hpp>
 #include <GodotGlobal.hpp>
 
+
 #include <unordered_map>
 
 #include "imgui.h"
@@ -100,7 +101,6 @@ public:
     bool button(String label, Vector2 size);
     bool small_button(String label);
     bool arrow_button(String id, int dir); // dir: ImGuiContants.dir
-    bool scrollbar(int axis);              // -1: none, 0: x, 1: y
     void image(int tex_id, Vector2 size, Vector2 uv0, Vector2 uv1, Color tint_color, Color border_color);
     void image_button(int tex_id, Vector2 size, Vector2 uv0, Vector2 uv1, Color bg_color, Color tint_color, int frame_padding);
     bool checkbox(String label, bool checked);
