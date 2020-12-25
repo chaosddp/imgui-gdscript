@@ -1,8 +1,5 @@
 Use imgui in gdscript with GDNative binding.
 
-## Known issues:
-
-1. Cannot show built-in windows (demo/metrics/about) without adding a new window first, will cause crash.
 
 ## How to build
 
