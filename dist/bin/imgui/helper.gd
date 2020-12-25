@@ -54,13 +54,13 @@ func show_demo_window(is_open:=true, is_raw:=true) -> bool:
 
 func show_metrics_window(is_open: bool, is_raw:=true) -> bool:
 	if is_raw:
-		return _imgui.show_metrics_window()
+		return _imgui.show_metrics_window(is_open)
 	else:
 		# TODO: gdscript metrics window
 		return false
 		
 func show_about_window(is_open: bool) -> bool:
-	return _imgui.show_about_window()
+	return _imgui.show_about_window(is_open)
 
 func style_color(color:=StyleColor.DARK) -> void:
 	match color:
@@ -75,22 +75,22 @@ func new_frame() -> void:
 	_imgui.new_frame()
 
 func text_unformatted(text: String) -> void:
-	_imgui.text_unformatted()
+	_imgui.text_unformatted(text)
 	
 func text(text: String) -> void:
 	_imgui.text(text)
 
 func text_colored(color: Color, text: String) -> void:
-	_imgui.text_colored()
+	_imgui.text_colored(color, text)
 	
 func text_disabled(text: String) -> void:
-	_imgui.text_disabled()
+	_imgui.text_disabled(text)
 	
 func label_text(label: String, text: String) -> void:
 	_imgui.label_text(label, text)
 	
 func bullet_text(text: String) -> void:
-	_imgui.bullet_text()
+	_imgui.bullet_text(text)
 
 func small_button(label: String) -> bool:
 	return _imgui.small_button(label)
@@ -114,7 +114,7 @@ func spacing() -> void:
 	_imgui.spacing()
 	
 func dummy(size: Vector2) -> void:
-	_imgui.dummy()
+	_imgui.dummy(size)
 	
 func newline() -> void:
 	_imgui.newline()
@@ -249,7 +249,7 @@ func collapsing_header(label: String, flags:=ImGuiConstants.TREE_NODE_FLAGS_NONE
 	return _imgui.collapsing_header(label, flags)
 
 func listbox_header(label: String, size:=ZERO2) -> bool:
-	return _imgui.listbox_header()
+	return _imgui.listbox_header(label, size)
 	
 func listbox_footer() -> void:
 	_imgui.listbox_footer()
