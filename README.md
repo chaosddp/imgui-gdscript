@@ -10,19 +10,19 @@ Use imgui in gdscript with GDNative binding.
 
 ```bash
 git submodule update --init --recursive
-
+```
 
 2. Build godot-cpp:
 
 ```bash
 scons platform="platform" generate_bindings=yes bits=64 target=release -j"cpu core"
-
+```
 
 3. Build imgui-gdscript
 
 ```bash
 scons platform="platform" target=release
-
+```
 
 ## How to use
 
@@ -79,9 +79,8 @@ func _process(_delta):
 	if show_demo_window:
 		helper.show_demo_window()
 	
-	helper.render()
-
-
+	imgui.render()
+```
 
 NOTE:
 
