@@ -32,6 +32,7 @@ func _process(_delta):
 	
 	# NOTE:
 	# not sure why we have to create a window before showing demo window, or it will crash
+	"""
 	helper.begin("Hello")
 	
 	if image1:
@@ -42,8 +43,8 @@ func _process(_delta):
 		helper.image(image1_id, image1.get_size())
 	
 	helper.end()
-	
-	if show_demo_window:
-		helper.show_demo_window()
-	
+	"""
+	#if show_demo_window:
+	helper.show_demo_window(true, false)
+	helper.show_demo_window(true, true)
 	helper.render()

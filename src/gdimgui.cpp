@@ -108,6 +108,7 @@ void GDImGui::_register_methods()
     REGISTER_METHOD(input_int3);
 
     REGISTER_METHOD(input_text);
+    REGISTER_METHOD(input_text_with_hint);
     REGISTER_METHOD(input_text_multipleline);
 
     REGISTER_METHOD(color_edit4);
@@ -199,6 +200,25 @@ void GDImGui::_register_methods()
     REGISTER_METHOD(end_tooltip);
 
     REGISTER_METHOD(is_item_hovered);
+
+    REGISTER_METHOD(set_next_window_pos);
+    REGISTER_METHOD(set_next_window_size);
+    REGISTER_METHOD(get_version);
+    REGISTER_METHOD(push_item_width);
+    REGISTER_METHOD(begin_table);
+    REGISTER_METHOD(end_table);
+    REGISTER_METHOD(table_next_column);
+    REGISTER_METHOD(table_setup_column);
+    REGISTER_METHOD(table_setup_scroll_freeze);
+    REGISTER_METHOD(table_get_row_index);
+    REGISTER_METHOD(table_header);
+    REGISTER_METHOD(table_headers_row);
+    REGISTER_METHOD(table_next_row);
+    REGISTER_METHOD(table_set_bg_color);
+    REGISTER_METHOD(table_set_column_index);
+    REGISTER_METHOD(push_style_color);
+    REGISTER_METHOD(pop_style_color);
+    REGISTER_METHOD(set_tooltip);
 }
 
 GDImGui::GDImGui()
@@ -536,6 +556,12 @@ void GDImGui::init_imgui()
     int KEY_ENTER = KEYOFFSET + 0x05;
     int KEY_KP_ENTER = KEYOFFSET + 0x06;
 
+    int Key_A = 0x0041;                 // for text edit CTRL+A: select all
+    int Key_C = 0x0043;                 // for text edit CTRL+C: copy
+    int Key_V = 0x0056;                 // for text edit CTRL+V: paste
+    int Key_X = 0x0058;                 // for text edit CTRL+X: cut
+    int Key_Y = 0x0059;                 // for text edit CTRL+Y: redo
+    int Key_Z = 0x005A;                 // for text edit CTRL+Z: undo
     // keyboard mapping
     io.KeyMap[ImGuiKey_Tab] = KEY_TAB;
     io.KeyMap[ImGuiKey_LeftArrow] = KEY_LEFT;
@@ -552,11 +578,27 @@ void GDImGui::init_imgui()
     io.KeyMap[ImGuiKey_Enter] = KEY_ENTER;
     io.KeyMap[ImGuiKey_Escape] = KEY_ESCAPE;
     io.KeyMap[ImGuiKey_KeyPadEnter] = KEY_KP_ENTER;
+    io.KeyMap[ImGuiKey_A] = Key_A;
+    io.KeyMap[ImGuiKey_C] = Key_C;
+    io.KeyMap[ImGuiKey_V] = Key_V;
+    io.KeyMap[ImGuiKey_X] = Key_X;
+    io.KeyMap[ImGuiKey_Y] = Key_Y;
+    io.KeyMap[ImGuiKey_Z] = Key_Z;
 }
 
 int GDImGui::add_image(Ref<Texture> tex)
 {
     return add_texture(tex.ptr());
+}
+
+void GDImGui::set_as_current_context()
+{
+    ImGui::SetCurrentContext(_imgui_ctx);
+}
+
+String GDImGui::get_version()
+{
+    return String(IMGUI_VERSION);
 }
 
 void GDImGui::style_color_dark()
@@ -1237,6 +1279,35 @@ String GDImGui::input_text(String label, String value, int max_length, int flags
     return result;
 }
 
+String GDImGui::input_text_with_hint(String label, String hint, String value, int max_length, int flags)
+{
+    ALLOC_STRING(c_label, label)
+    ALLOC_STRING(c_value, value)
+    ALLOC_STRING(c_hint, hint)
+
+    char *buffer = (char *)api->godot_alloc(max_length + 1);
+
+    memset(buffer, 0, max_length + 1);
+
+    if (!value.empty())
+    {
+        memcpy(buffer, c_value, value.length() + 1);
+    }
+
+    ImGui::InputTextWithHint(c_label, c_hint, buffer, max_length + 1, flags);
+
+    String result(buffer);
+
+    api->godot_free(buffer);
+
+    FREE_STRING(c_label)
+    FREE_STRING(c_value)
+    FREE_STRING(c_hint)
+
+    return result;
+}
+
+
 String GDImGui::input_text_multipleline(String label, String value, int max_length, Vector2 size, int flags)
 {
     ALLOC_STRING(c_label, label)
@@ -1380,7 +1451,7 @@ void GDImGui::listbox_footer()
 }
 
 void GDImGui::plot_lines(String label, PoolRealArray values, int value_offset, String overlay,
-                           float scale_min, float scale_max, Vector2 size, int stride)
+                         float scale_min, float scale_max, Vector2 size, int stride)
 {
     ALLOC_STRING(c_label, label)
     ALLOC_STRING(c_overlay, overlay)
@@ -1401,7 +1472,7 @@ void GDImGui::plot_lines(String label, PoolRealArray values, int value_offset, S
 }
 
 void GDImGui::plot_histogram(String label, PoolRealArray values, int value_offset, String overlay,
-                               float scale_min, float scale_max, Vector2 size, int stride)
+                             float scale_min, float scale_max, Vector2 size, int stride)
 {
     ALLOC_STRING(c_label, label)
     ALLOC_STRING(c_overlay, overlay)
@@ -1661,6 +1732,16 @@ void GDImGui::set_window_focus(String name)
     ImGui::SetWindowFocus(c_name);
 
     FREE_STRING(c_name)
+}
+
+void GDImGui::set_next_window_pos(Vector2 pos, int condition, Vector2 pivot)
+{
+    ImGui::SetNextWindowPos(to_imgui_vec2(pos), condition, to_imgui_vec2(pivot));
+}
+
+void GDImGui::set_next_window_size(Vector2 size, int condition)
+{
+    ImGui::SetNextWindowSize(to_imgui_vec2(size), condition);
 }
 
 void GDImGui::set_next_window_bg_alpha(float alpha)
@@ -1991,7 +2072,6 @@ void GDImGui::next_column()
     ImGui::NextColumn();
 }
 
-
 void GDImGui::columns(int columns_count, String id, bool border)
 {
     ALLOC_STRING(c_id, id)
@@ -1999,4 +2079,23 @@ void GDImGui::columns(int columns_count, String id, bool border)
     ImGui::Columns(columns_count, c_id, border);
 
     FREE_STRING(c_id)
+}
+
+void GDImGui::push_style_color(int idx, Color color)
+{
+    ImGui::PushStyleColor(idx, to_imgui_color(color));
+}
+
+void GDImGui::pop_style_color(int count)
+{
+    ImGui::PopStyleColor(count);
+}
+
+void GDImGui::set_tooltip(String text)
+{
+    ALLOC_STRING(c_text, text)
+
+    ImGui::SetTooltip(c_text);
+
+    FREE_STRING(c_text)
 }

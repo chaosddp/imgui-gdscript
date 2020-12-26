@@ -76,6 +76,9 @@ public:
     // add image and get an id for following usage, like imgui.image, imgui.image_button
     int add_image(Ref<Texture> tex);
 
+    // Set context of this instance as current context for imgui
+    void set_as_current_context();
+
     // show demo window
     bool show_demo_window(bool opened);
     bool show_metrics_window(bool opened);
@@ -87,6 +90,8 @@ public:
     void style_color_classic();
 
     void new_frame();
+
+    String get_version();
 
     // widgets
 
@@ -153,6 +158,7 @@ public:
 
     String input_text(String label, String value, int max_length, int flags);
     String input_text_multipleline(String label, String value, int max_length, Vector2 size, int flags);
+    String input_text_with_hint(String label, String hint, String value, int max_length, int flags);
 
     // color edit
     Color color_edit4(String label, Color color, int flags);
@@ -234,6 +240,8 @@ public:
     void push_allow_keyboard_focus(bool allow_keyboard_focus);
     void pop_allow_keyboard_focus();
 
+    void set_next_window_pos(Vector2 pos, int condition, Vector2 pivot);
+    void set_next_window_size(Vector2 size, int condition);
     void set_window_size(String name, Vector2 size, int condition);
     void set_window_collapsed(String name, bool collapsed, int condition);
     void set_window_focus(String name);
@@ -286,6 +294,11 @@ public:
     void pop_text_wrap_pos();
     float get_font_size();
     bool is_item_hovered();
+
+    void push_style_color(int idx, Color color);
+    void pop_style_color(int count);
+
+    void set_tooltip(String text);
 };
 
 #endif
