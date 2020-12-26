@@ -307,6 +307,7 @@ public:
     void pop_style_color(int count);
 
     void set_tooltip(String text);
+    Vector2 get_cursor_screen_pos();
 };
 
 #endif

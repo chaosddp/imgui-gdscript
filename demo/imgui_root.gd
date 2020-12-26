@@ -17,6 +17,9 @@ func _ready():
 	# DO add as a child
 	add_child(imgui)
 	
+	# set style to light, default is dark
+	#helper.style_color(helper.StyleColor.LIGHT)	
+	
 	# helper
 	helper = ImGuiHelper.new(imgui)
 
@@ -25,9 +28,6 @@ func _ready():
 		image1_id = helper.add_image(image1)
 
 func _process(_delta):
-	# set style to light, default is dark
-	helper.style_color(helper.StyleColor.LIGHT)
-
 	helper.new_frame()
 	
 	# NOTE:

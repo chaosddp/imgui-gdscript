@@ -227,6 +227,7 @@ void GDImGui::_register_methods()
     REGISTER_METHOD(push_style_color);
     REGISTER_METHOD(pop_style_color);
     REGISTER_METHOD(set_tooltip);
+    REGISTER_METHOD(get_cursor_screen_pos);
 }
 
 GDImGui::GDImGui()
@@ -1456,11 +1457,11 @@ bool GDImGui::collapsing_header(String label, int flags)
 {
     ALLOC_STRING(c_label, label)
 
-    bool opened = ImGui::CollapsingHeader(c_label, flags);
+    bool v = ImGui::CollapsingHeader(c_label, flags);
 
     FREE_STRING(c_label)
 
-    return opened;
+    return v;
 }
 
 bool GDImGui::listbox_header(String label, Vector2 size)
@@ -2157,4 +2158,11 @@ void GDImGui::set_tooltip(String text)
     ImGui::SetTooltip(c_text);
 
     FREE_STRING(c_text)
+}
+
+Vector2 GDImGui::get_cursor_screen_pos()
+{
+    ImVec2 pos = ImGui::GetCursorScreenPos();
+
+    return Vector2(pos.x, pos.y);
 }

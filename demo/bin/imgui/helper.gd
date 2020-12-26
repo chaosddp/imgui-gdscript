@@ -89,6 +89,9 @@ func text_colored(color: Color, text: String) -> void:
 	
 func text_disabled(text: String) -> void:
 	_imgui.text_disabled(text)
+
+func text_wrapped(text: String) -> void:
+	_imgui.text_wrapped(text)
 	
 func label_text(label: String, text: String) -> void:
 	_imgui.label_text(label, text)
@@ -151,8 +154,8 @@ func image(tex_id: int, size:=ZERO2, uv0:=ZERO2, uv1:=ONE2, tint_color:=WHITE, b
 	"""retrieve the tex_id with add_image method"""
 	_imgui.image(tex_id, size, uv0, uv1, tint_color, border_color)
 
-func image_button(tex_id: int, size:=ZERO2, uv0:=ZERO2, uv1:=ONE2, tint_color:=WHITE, bg_color:=BLACK) -> bool:
-	return _imgui.image_button(tex_id, size, uv0, uv1, bg_color, tint_color, -1)
+func image_button(tex_id: int, size:=ZERO2, uv0:=ZERO2, uv1:=ONE2, tint_color:=WHITE, bg_color:=BLACK, frame_padding:=-1) -> bool:
+	return _imgui.image_button(tex_id, size, uv0, uv1, bg_color, tint_color, frame_padding)
 
 func drag_float(label: String, value: float, speed:=DRAG_SPEED, v_min:=DRAG_FLOAT_MIN, v_max:=DRAG_FLOAT_MAX, format:=FLOAT_FORMAT, flags:=DRAG_FLAGS) -> float:
 	return _imgui.drag_float(label, value, speed, v_min, v_max, format, flags)
@@ -574,6 +577,10 @@ func pop_style_color(count: int) -> void:
 func set_tooltip(text: String) -> void:
 	_imgui.set_tooltip(text)
 
+func get_cursor_screen_pos() -> Vector2:
+	return _imgui.get_cursor_screen_pos()
+
+
 """
 DEMO WINDOW with exist features
 """
@@ -892,6 +899,9 @@ var _demo_item_current:= 1
 var _demo_base_flags:= ImGuiConstants.TREE_NODE_FLAGS_OPEN_ON_DOUBLE_CLICK | ImGuiConstants.TREE_NODE_FLAGS_OPEN_ON_ARROW | ImGuiConstants.TREE_NODE_FLAGS_SPAN_AVAIL_WIDTH
 var _demo_align_label_with_current_x_position:= false
 var _demo_selection_mask:= 1 << 2
+var _demo_closable_group:= false
+var _demo_wrap_width:= 200.0
+var _demo_pressed_count:= 0
 
 func _show_demo_window_widgets() -> void:
 	if not collapsing_header("Widgets"):
@@ -1129,8 +1139,104 @@ Click to select, CTRL+Click to toggle, click on arrows or double-click to open."
 			indent(get_tree_node_to_label_spacing())
 
 		tree_pop()
+		tree_pop()
+
+	if tree_node("Collapsing Headers"):
+		if collapsing_header("Header"):
+			text("Is item hovered: %s" % is_item_hovered())
+
+			for i in range(5):
+				text("Some content %d" % i)
+
+		# we have no collapsing_header with close button
+		tree_pop()
+
+	# bullets
+	if tree_node("Bullets"):
+		bullet_text("Bullet point 1")
+		bullet_text("Bullet point 2\nOn multiple lines")
+
+		if tree_node("Tree node"):
+			bullet_text("Another bullet point")
+			tree_pop()
+
+		bullet()
+		text("Bullet point 3 (two calls)")
+
+		bullet()
+		small_button("Button")
 
 		tree_pop()
+
+	# text
+	if tree_node("Text"):
+		if tree_node("Colorful Text"):
+			text_colored(Color(1.0, 0.0, 1.0, 1.0), "Pink")
+			text_colored(Color(1.0, 1.0, 0.0, 1.0), "Yellow")
+			text_disabled("Disabled")
+			same_line()
+			helper_marker("The TextDisabled color is stored in ImGuiStyle.")
+			tree_pop()
+
+		if tree_node("Word Wrapping"):
+			text_wrapped("""This text should automatically wrap on the edge of the window. The current implementation 
+for text wrapping follows simple rules suitable for English and possibly other languages.""")
+
+			tree_pop()
+
+		tree_pop()
+
+	# TODO: not support change font for now
+
+	# NOTE: id our of our texture is start from 1000, and font is the first texture
+	var tex_w:= 512
+	var tex_h:= 64
+	var font_tex_id:= 1000
+
+	if tree_node("Images"):
+		text_wrapped("""Below we are displaying the font texture (which is the only texture we have access to in this demo).
+To display your image, you should add_image first, then it will return a texture_id,
+then use this texture_id to image and image_button methods to show it.""")
+
+		text("%dx%d" % [tex_w, tex_h])
+		var pos:= get_cursor_screen_pos()
+		var uv_min:= Vector2(0.0, 0.0)
+		var uv_max:= Vector2(1.0, 1.0)
+		var tint_col:= Color.white
+		var border_col:= Color(1.0, 1.0, 10, 0.5)
+		
+		image(font_tex_id, Vector2(tex_w, tex_h), uv_min, uv_max, tint_col, border_col)
+
+		# we removed zoom function
+		text_wrapped("Some textured buttons..")
+
+		for i in range(8):
+			push_id(i)
+
+			var frame_padding:= -1 + i
+			var size:= Vector2(32.0, 32.0)
+			var uv0:= Vector2(0.0, 0.0)
+			var uv1:= Vector2(32.0 / tex_w, 32.0 / tex_h)
+			var bg_col:= Color(0.0, 0.0, 0.0, 1.0)
+			tint_col= Color(1.0, 1.0, 1.0, 1.0)
+
+			if image_button(font_tex_id, size, uv0, uv1, bg_col, tint_col, frame_padding):
+				_demo_pressed_count += 1
+
+			pop_id()
+			same_line()
+		
+		newline()
+		text("Pressed %d times." % _demo_pressed_count)
+
+		tree_pop()
+	
+	# combo
+	if tree_node("Combo"):
+		
+
+		tree_pop()
+
 
 func _show_demo_window_layout() -> void:
 	pass
