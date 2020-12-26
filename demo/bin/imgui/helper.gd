@@ -102,8 +102,11 @@ func small_button(label: String) -> bool:
 func arrow_button(id: String, dir:=ImGuiConstants.dir_none) -> bool:
 	return _imgui.arrow_button(id, dir)
 	
-func check_box(label: String, checked:=true) -> bool:
+func checkbox(label: String, checked:=true) -> bool:
 	return _imgui.checkbox(label, checked)
+
+func checkbox_flags(label: String, flags: int, flag_value: int) -> int:
+	return _imgui.checkbox_flags(label, flags, flag_value)
 
 func radio_button(label: String, activated:=true) -> bool:
 	return _imgui.radio_button(label, activated)
@@ -248,6 +251,9 @@ func plot_histogram(label: String, values: PoolRealArray, value_offset:=0, overl
 	
 func tree_node(label: String) -> bool:
 	return _imgui.tree_node(label)
+
+func tree_node_ex(id: int, flags: int, label: String) -> bool:
+	return _imgui.tree_node_ex(id, flags, label);
 	
 func tree_pop() -> void:
 	_imgui.tree_pop()
@@ -541,6 +547,24 @@ func get_font_size() -> float:
 func is_item_hovered() -> bool:
 	return _imgui.is_item_hovered()
 
+func is_item_clicked(button:= ImGuiConstants.MOUSE_BUTTON_LEFT) -> bool:
+	return _imgui.is_item_clicked(button)
+
+func is_item_activated() -> bool:
+	return _imgui.is_item_activated()
+
+func is_item_active() -> bool:
+	return _imgui.is_item_active()
+
+func is_item_edited() -> bool:
+	return _imgui.is_item_edited()
+
+func is_item_focused() -> bool:
+	return _imgui.is_item_focused()
+
+func is_item_visible() -> bool:
+	return _imgui.is_item_visible()
+
 func push_style_color(index: int, color: Color) -> void:
 	_imgui.push_style_color(index, color)
 
@@ -733,31 +757,31 @@ Try opening any of the contents below in this window and then click one of the "
 	if collapsing_header("Window options"):
 		if begin_table("split", 3):
 			table_next_column()
-			_no_titlebar = check_box("No titlebar", _no_titlebar)
+			_no_titlebar = checkbox("No titlebar", _no_titlebar)
 
 			table_next_column()
-			_no_scrollbar = check_box("No scrollbarl", _no_scrollbar)
+			_no_scrollbar = checkbox("No scrollbarl", _no_scrollbar)
 
 			table_next_column()
-			_no_menu = check_box("No menu", _no_menu)
+			_no_menu = checkbox("No menu", _no_menu)
 
 			table_next_column()
-			_no_move = check_box("No move", _no_move)
+			_no_move = checkbox("No move", _no_move)
 
 			table_next_column()
-			_no_resize = check_box("No resize", _no_resize)
+			_no_resize = checkbox("No resize", _no_resize)
 
 			table_next_column()
-			_no_collapse = check_box("No collapse", _no_collapse)
+			_no_collapse = checkbox("No collapse", _no_collapse)
 
 			table_next_column()
-			_no_close = check_box("No close", _no_close)
+			_no_close = checkbox("No close", _no_close)
 
 			table_next_column()
-			_no_background = check_box("No background", _no_background)
+			_no_background = checkbox("No background", _no_background)
 
 			table_next_column()
-			_no_bring_to_front = check_box("No bring to front", _no_bring_to_front)
+			_no_bring_to_front = checkbox("No bring to front", _no_bring_to_front)
 
 			end_table()
 	
@@ -855,7 +879,20 @@ var _demo_f0:= 0.001
 var _demo_d0:= 999999.00000001
 var _demo_f1:= 1.e10
 var _demo_vec3a:= Vector3(0.10, 0.20, 0.30)
-	
+var _demo_i1:= 50
+var _demo_i2:= 42
+var _demo_f2:= 0.0067
+var _demo_angle:= 0.0
+var _demo_elem:= 0
+const _demo_elems_names:= ["Fire", "Earth", "Air", "Water"]
+var _demo_col1:= Color(1.0, 0.0, 0.2, 1.0)
+var _demo_col2:= Color(0.4, 0.7, 0.0, 0.5)
+const _demo_items:= ["Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"]
+var _demo_item_current:= 1
+var _demo_base_flags:= ImGuiConstants.TREE_NODE_FLAGS_OPEN_ON_DOUBLE_CLICK | ImGuiConstants.TREE_NODE_FLAGS_OPEN_ON_ARROW | ImGuiConstants.TREE_NODE_FLAGS_SPAN_AVAIL_WIDTH
+var _demo_align_label_with_current_x_position:= false
+var _demo_selection_mask:= 1 << 2
+
 func _show_demo_window_widgets() -> void:
 	if not collapsing_header("Widgets"):
 		return
@@ -868,7 +905,7 @@ func _show_demo_window_widgets() -> void:
 			same_line()
 			text("Thanks for clikcing me!")
 		
-		_demo_checked = check_box("checkbox", _demo_checked)
+		_demo_checked = checkbox("checkbox", _demo_checked)
 
 		# radio button group
 		# we cannot use reference to hold the value as c++ version, so use actualy value to
@@ -963,14 +1000,137 @@ CTRL+Z,CTRL+Y undo/redo.
 
 		_demo_str1 = input_text_with_hint("input text (w/ hint)", "enter text here", _demo_str1, 128)
 
+		# TODO: we do not support arithmetic operators +,*,/ on numerical value for now
 		_demo_i0 = input_int("input int", _demo_i0)
+
+		_demo_f0 = input_float("input float", _demo_f0, 0.01, 1.0, "%.3f")
+
+		_demo_f1 = input_float("input scientific", _demo_f1, 0.0, 0.0, "%e")
 		same_line()
-		helper_marker("""You can apply arithmetic operators +,*,/ on numerical values.
-  e.g. [ 100 ], input \'*2\', result becomes [ 200 ]
-Use +- to subtract.""")
+		helper_marker("""You can input value using the scientific notation,\ne.g. "1e+8" becomes "100000000".""")
+
+		# drag
+		_demo_i1 = drag_int("drag it", _demo_i1, 1)
+		same_line()
+		helper_marker("""
+Click and drag to edit value.
+Hold SHIFT/ALT for faster/slower edit.
+Double-click or CTRL+click to input value.
+		""")
+
+		_demo_i2 = drag_int("drag int 0..100", _demo_i2, 1, 0, 100, "%d%%", ImGuiConstants.SLIDER_FLAGS_ALWAYS_CLAMP)
+
+		_demo_f1 = drag_float("drag float", _demo_f1, 0.005)
+		_demo_f2 = drag_float("drag small float", _demo_f2, 0.0001, 0.0, 0.0, "%.06f ns")
+
+
+		# slider
+		_demo_i1 = slider_int("slider int", _demo_i1, -1, 3)
+		same_line()
+		helper_marker("CTRL+click to input value.")
+
+		_demo_f1 = slider_float("slider float", _demo_f1, 0.0, 1.0, "ratio = %.3f")
+		_demo_f2 = slider_float("slider float (log)", _demo_f2, -10.0, 10.0, "%.4f", ImGuiConstants.SLIDER_FLAGS_LOGARITHMIC)
+
+		_demo_angle = slider_angle("slider angle", _demo_angle)
+
+		_demo_elem = _demo_elem if _demo_elem < len(_demo_elems_names) else 0
+
+		_demo_elem = slider_int("slider enum", _demo_elem, 0, len(_demo_elems_names) - 1, _demo_elems_names[_demo_elem])
+		same_line()
+		helper_marker("Using the format string parameter to display a name instead of the underlying integer.")
+
+
+		# color, only edit4
+		_demo_col1 = color_edit4("color 1", _demo_col1)
+		same_line()
+		helper_marker("""
+Click on the color square to open a color picker.
+Click and hold to use drag and drop.
+Right-click on the color square to show options.
+CTRL+click on individual component to input value.""")
+
+		# listbox
+		# NOTE: we do not have the listbox method to create a listbox
+		if listbox_header("list box\n(single select)"):
+			for i in range(len(_demo_items)):
+				var item = _demo_items[i]
+
+				if selectable(item, _demo_item_current == i):
+					_demo_item_current = i
+
+			listbox_footer()
 
 		tree_pop()
-		
+	
+	# trees
+	if tree_node("Trees"):
+		if tree_node("Basic trees"):
+			for i in range(5):
+				if i == 0:
+					set_next_item_open(true, ImGuiConstants.GUI_COND_ONCE)
+
+				if tree_node("Child %d" % i):
+					text("blah blah")
+					same_line()
+
+					if small_button("button"):
+						pass
+
+					tree_pop()
+
+		tree_pop()
+
+	if tree_node("Advanced, with selectable nodes"):
+		helper_marker("""This is a more typical looking tree with selectable nodes.
+Click to select, CTRL+Click to toggle, click on arrows or double-click to open.""")
+
+		_demo_base_flags = checkbox_flags("ImGuiTreeNodeFlags_OpenOnArrow", _demo_base_flags, ImGuiConstants.TREE_NODE_FLAGS_OPEN_ON_ARROW)
+		_demo_base_flags = checkbox_flags("ImGuiTreeNodeFlags_OpenOnDoubleClick", _demo_base_flags, ImGuiConstants.TREE_NODE_FLAGS_OPEN_ON_DOUBLE_CLICK)
+		_demo_base_flags = checkbox_flags("ImGuiTreeNodeFlags_SpanAvailWidth", _demo_base_flags, ImGuiConstants.TREE_NODE_FLAGS_SPAN_AVAIL_WIDTH)
+		_demo_base_flags = checkbox_flags("ImGuiTreeNodeFlags_SpanFullWidth", _demo_base_flags, ImGuiConstants.TREE_NODE_FLAGS_SPAN_FULL_WIDTH)
+
+		_demo_align_label_with_current_x_position = checkbox("Align label with current X position", _demo_align_label_with_current_x_position)
+
+		if _demo_align_label_with_current_x_position:
+			unindent(get_tree_node_to_label_spacing())
+
+		var node_clicked:= -1
+
+		for i in range(6):
+			var node_flags = _demo_base_flags
+			var is_selected = (_demo_selection_mask & (1 << i)) != 0
+
+			if is_selected:
+				node_flags |= ImGuiConstants.TREE_NODE_FLAGS_SELECTED
+			
+			if i < 3:
+				var node_open:= tree_node_ex(i, node_flags, "Selectable Node %d" % i)
+
+				if is_item_clicked():
+					node_clicked = i
+				
+				if node_open:
+					bullet_text("Blah blah\nBlah blah")
+					tree_pop()
+			else:
+				node_flags |= ImGuiConstants.TREE_NODE_FLAGS_LEAF | ImGuiConstants.TREE_NODE_FLAGS_NO_TREE_PUSH_ON_OPEN
+
+				tree_node_ex(i, node_flags, "Selectable Leaf %d" % i)
+
+				if is_item_clicked():
+					node_clicked = i
+
+		if node_clicked != -1:
+			# only single selected
+			_demo_selection_mask = (1 << node_clicked)
+
+		if _demo_align_label_with_current_x_position:
+			indent(get_tree_node_to_label_spacing())
+
+		tree_pop()
+
+		tree_pop()
 
 func _show_demo_window_layout() -> void:
 	pass

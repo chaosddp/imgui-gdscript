@@ -109,6 +109,7 @@ public:
     void image(int tex_id, Vector2 size, Vector2 uv0, Vector2 uv1, Color tint_color, Color border_color);
     void image_button(int tex_id, Vector2 size, Vector2 uv0, Vector2 uv1, Color bg_color, Color tint_color, int frame_padding);
     bool checkbox(String label, bool checked);
+    int checkbox_flags(String label, int flags, int flag_value);
     bool radio_button(String label, bool activated);
     void progressbar(float fraction, Vector2 size, String overlay);
     void bullet();
@@ -168,6 +169,7 @@ public:
 
     // tree
     bool tree_node(String label);
+    bool tree_node_ex(int id, int flags, String label);
     void tree_pop();
     float get_tree_node_to_label_spacing();
     void set_next_item_open(bool is_open, int condition);
@@ -294,6 +296,12 @@ public:
     void pop_text_wrap_pos();
     float get_font_size();
     bool is_item_hovered();
+    bool is_item_clicked(int mouse_button);
+    bool is_item_activated();
+    bool is_item_active();
+    bool is_item_edited();
+    bool is_item_focused();
+    bool is_item_visible();
 
     void push_style_color(int idx, Color color);
     void pop_style_color(int count);

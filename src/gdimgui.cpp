@@ -70,6 +70,7 @@ void GDImGui::_register_methods()
     REGISTER_METHOD(image);
     REGISTER_METHOD(image_button);
     REGISTER_METHOD(checkbox);
+    REGISTER_METHOD(checkbox_flags);
     REGISTER_METHOD(radio_button);
     REGISTER_METHOD(progressbar);
     REGISTER_METHOD(bullet);
@@ -117,6 +118,7 @@ void GDImGui::_register_methods()
     REGISTER_METHOD(set_color_edit_options);
 
     REGISTER_METHOD(tree_node);
+    REGISTER_METHOD(tree_node_ex);
     REGISTER_METHOD(tree_pop);
     REGISTER_METHOD(set_next_item_open);
     REGISTER_METHOD(get_tree_node_to_label_spacing);
@@ -200,6 +202,12 @@ void GDImGui::_register_methods()
     REGISTER_METHOD(end_tooltip);
 
     REGISTER_METHOD(is_item_hovered);
+    REGISTER_METHOD(is_item_clicked);
+    REGISTER_METHOD(is_item_activated);
+    REGISTER_METHOD(is_item_active);
+    REGISTER_METHOD(is_item_edited);
+    REGISTER_METHOD(is_item_focused);
+    REGISTER_METHOD(is_item_visible);
 
     REGISTER_METHOD(set_next_window_pos);
     REGISTER_METHOD(set_next_window_size);
@@ -556,12 +564,12 @@ void GDImGui::init_imgui()
     int KEY_ENTER = KEYOFFSET + 0x05;
     int KEY_KP_ENTER = KEYOFFSET + 0x06;
 
-    int Key_A = 0x0041;                 // for text edit CTRL+A: select all
-    int Key_C = 0x0043;                 // for text edit CTRL+C: copy
-    int Key_V = 0x0056;                 // for text edit CTRL+V: paste
-    int Key_X = 0x0058;                 // for text edit CTRL+X: cut
-    int Key_Y = 0x0059;                 // for text edit CTRL+Y: redo
-    int Key_Z = 0x005A;                 // for text edit CTRL+Z: undo
+    int Key_A = 0x0041; // for text edit CTRL+A: select all
+    int Key_C = 0x0043; // for text edit CTRL+C: copy
+    int Key_V = 0x0056; // for text edit CTRL+V: paste
+    int Key_X = 0x0058; // for text edit CTRL+X: cut
+    int Key_Y = 0x0059; // for text edit CTRL+Y: redo
+    int Key_Z = 0x005A; // for text edit CTRL+Z: undo
     // keyboard mapping
     io.KeyMap[ImGuiKey_Tab] = KEY_TAB;
     io.KeyMap[ImGuiKey_LeftArrow] = KEY_LEFT;
@@ -783,6 +791,17 @@ bool GDImGui::checkbox(String label, bool checked)
     FREE_STRING(c_label)
 
     return checked;
+}
+
+int GDImGui::checkbox_flags(String label, int flags, int flag_value)
+{
+    ALLOC_STRING(c_label, label)
+
+    ImGui::CheckboxFlags(c_label, &flags, flag_value);
+
+    FREE_STRING(c_label)
+
+    return flags;
 }
 
 bool GDImGui::radio_button(String label, bool activated)
@@ -1307,7 +1326,6 @@ String GDImGui::input_text_with_hint(String label, String hint, String value, in
     return result;
 }
 
-
 String GDImGui::input_text_multipleline(String label, String value, int max_length, Vector2 size, int flags)
 {
     ALLOC_STRING(c_label, label)
@@ -1402,6 +1420,17 @@ bool GDImGui::tree_node(String label)
     ALLOC_STRING(c_label, label)
 
     bool opened = ImGui::TreeNode(c_label);
+
+    FREE_STRING(c_label)
+
+    return opened;
+}
+
+bool GDImGui::tree_node_ex(int id, int flags, String label)
+{
+    ALLOC_STRING(c_label, label)
+
+    bool opened = ImGui::TreeNodeEx((void*)(intptr_t)id, flags, c_label);
 
     FREE_STRING(c_label)
 
@@ -1631,6 +1660,36 @@ float GDImGui::get_font_size()
 bool GDImGui::is_item_hovered()
 {
     return ImGui::IsItemHovered();
+}
+
+bool GDImGui::is_item_clicked(int mouse_button)
+{
+    return ImGui::IsItemClicked(mouse_button);
+}
+
+bool GDImGui::is_item_activated()
+{
+    return ImGui::IsItemActivated();
+}
+
+bool GDImGui::is_item_active()
+{
+    return ImGui::IsItemActive();
+}
+
+bool GDImGui::is_item_edited()
+{
+    return ImGui::IsItemEdited();
+}
+
+bool GDImGui::is_item_focused()
+{
+    return ImGui::IsItemFocused();
+}
+
+bool GDImGui::is_item_visible()
+{
+    return ImGui::IsItemVisible();
 }
 
 void GDImGui::push_clip_rect(Vector2 rect_min, Vector2 rect_max, bool intersect_with_current_clip_rect)
