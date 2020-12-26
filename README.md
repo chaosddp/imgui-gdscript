@@ -1,4 +1,4 @@
-Use imgui in gdscript with GDNative binding.
+Use imgui in gdscript with GDNative binding for Godot 3.2.x.
 
 
 ## How to build
