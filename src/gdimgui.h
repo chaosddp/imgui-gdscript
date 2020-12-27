@@ -308,6 +308,8 @@ public:
 
     void set_tooltip(String text);
     Vector2 get_cursor_screen_pos();
+    bool is_mouse_double_clicked(int mouse_button);
+    bool is_mouse_clicked(int mouse_button, bool repeat);
 };
 
 #endif

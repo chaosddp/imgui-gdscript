@@ -580,6 +580,12 @@ func set_tooltip(text: String) -> void:
 func get_cursor_screen_pos() -> Vector2:
 	return _imgui.get_cursor_screen_pos()
 
+func is_mouse_double_clicked(mouse_button:= ImGuiConstants.MOUSE_BUTTON_LEFT) -> bool:
+	return _imgui.is_mouse_double_clicked(mouse_button)
+
+func is_mouse_clicked(mouse_button:= ImGuiConstants.MOUSE_BUTTON_LEFT, repeat:= false) -> bool:
+	return _imgui.is_mouse_clicked(mouse_button, repeat)
+
 
 """
 DEMO WINDOW with exist features
@@ -902,6 +908,36 @@ var _demo_selection_mask:= 1 << 2
 var _demo_closable_group:= false
 var _demo_wrap_width:= 200.0
 var _demo_pressed_count:= 0
+var _demo_flags:= 0
+var _demo_item_current_idx:= 0
+var _demo_selections:= [false, true, false, false, false]
+var _demo_selected:= -1
+var _demo_selections2:= [false, false, false]
+var _demo_selections3:= [false, false, false, false, false, false, false, false, false, false]
+var _demo_selections4:= [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
+
+var _demo_input_flags:= ImGuiConstants.INPUT_TEXT_FLAGS_ALLOW_TAB_INPUT
+var _demo_multi_line_text:= """/*
+ The Pentium F00F bug, shorthand for F0 0F C7 C8,
+ the hexadecimal encoding of one offending instruction,
+ more formally, the invalid operand with locked CMPXCHG8B
+ instruction bug, is a design flaw in the majority of
+ Intel Pentium, Pentium MMX, and Pentium OverDrive
+ processors (all in the P5 microarchitecture).
+*
+
+label:
+	lock cmpxchg8b eax"""
+
+var _demo_password:= "password123"
+var _demo_animate:= true
+var _demo_plot_arr1:= [0.6, 0.1, 1.0, 0.5, 0.92, 0.1, 0.2]
+var _demo_color:= Color(114/255, 144/255, 154/255, 200/255)
+var _demo_alpha_preview:= true
+var _demo_alpha_hal_preview:= false
+var _demo_options_menu:= true
+var _demo_hdr:= true
+var _demo_no_border:= false
 
 func _show_demo_window_widgets() -> void:
 	if not collapsing_header("Widgets"):
@@ -1088,57 +1124,57 @@ CTRL+click on individual component to input value.""")
 						pass
 
 					tree_pop()
+			tree_pop()
 
-		tree_pop()
+		if tree_node("Advanced, with selectable nodes"):
+			helper_marker("""This is a more typical looking tree with selectable nodes.
+	Click to select, CTRL+Click to toggle, click on arrows or double-click to open.""")
 
-	if tree_node("Advanced, with selectable nodes"):
-		helper_marker("""This is a more typical looking tree with selectable nodes.
-Click to select, CTRL+Click to toggle, click on arrows or double-click to open.""")
+			_demo_base_flags = checkbox_flags("ImGuiTreeNodeFlags_OpenOnArrow", _demo_base_flags, ImGuiConstants.TREE_NODE_FLAGS_OPEN_ON_ARROW)
+			_demo_base_flags = checkbox_flags("ImGuiTreeNodeFlags_OpenOnDoubleClick", _demo_base_flags, ImGuiConstants.TREE_NODE_FLAGS_OPEN_ON_DOUBLE_CLICK)
+			_demo_base_flags = checkbox_flags("ImGuiTreeNodeFlags_SpanAvailWidth", _demo_base_flags, ImGuiConstants.TREE_NODE_FLAGS_SPAN_AVAIL_WIDTH)
+			_demo_base_flags = checkbox_flags("ImGuiTreeNodeFlags_SpanFullWidth", _demo_base_flags, ImGuiConstants.TREE_NODE_FLAGS_SPAN_FULL_WIDTH)
 
-		_demo_base_flags = checkbox_flags("ImGuiTreeNodeFlags_OpenOnArrow", _demo_base_flags, ImGuiConstants.TREE_NODE_FLAGS_OPEN_ON_ARROW)
-		_demo_base_flags = checkbox_flags("ImGuiTreeNodeFlags_OpenOnDoubleClick", _demo_base_flags, ImGuiConstants.TREE_NODE_FLAGS_OPEN_ON_DOUBLE_CLICK)
-		_demo_base_flags = checkbox_flags("ImGuiTreeNodeFlags_SpanAvailWidth", _demo_base_flags, ImGuiConstants.TREE_NODE_FLAGS_SPAN_AVAIL_WIDTH)
-		_demo_base_flags = checkbox_flags("ImGuiTreeNodeFlags_SpanFullWidth", _demo_base_flags, ImGuiConstants.TREE_NODE_FLAGS_SPAN_FULL_WIDTH)
+			_demo_align_label_with_current_x_position = checkbox("Align label with current X position", _demo_align_label_with_current_x_position)
 
-		_demo_align_label_with_current_x_position = checkbox("Align label with current X position", _demo_align_label_with_current_x_position)
+			if _demo_align_label_with_current_x_position:
+				unindent(get_tree_node_to_label_spacing())
 
-		if _demo_align_label_with_current_x_position:
-			unindent(get_tree_node_to_label_spacing())
+			var node_clicked:= -1
 
-		var node_clicked:= -1
+			for i in range(6):
+				var node_flags = _demo_base_flags
+				var is_selected = (_demo_selection_mask & (1 << i)) != 0
 
-		for i in range(6):
-			var node_flags = _demo_base_flags
-			var is_selected = (_demo_selection_mask & (1 << i)) != 0
-
-			if is_selected:
-				node_flags |= ImGuiConstants.TREE_NODE_FLAGS_SELECTED
-			
-			if i < 3:
-				var node_open:= tree_node_ex(i, node_flags, "Selectable Node %d" % i)
-
-				if is_item_clicked():
-					node_clicked = i
+				if is_selected:
+					node_flags |= ImGuiConstants.TREE_NODE_FLAGS_SELECTED
 				
-				if node_open:
-					bullet_text("Blah blah\nBlah blah")
-					tree_pop()
-			else:
-				node_flags |= ImGuiConstants.TREE_NODE_FLAGS_LEAF | ImGuiConstants.TREE_NODE_FLAGS_NO_TREE_PUSH_ON_OPEN
+				if i < 3:
+					var node_open:= tree_node_ex(i, node_flags, "Selectable Node %d" % i)
 
-				tree_node_ex(i, node_flags, "Selectable Leaf %d" % i)
+					if is_item_clicked():
+						node_clicked = i
+					
+					if node_open:
+						bullet_text("Blah blah\nBlah blah")
+						tree_pop()
+				else:
+					node_flags |= ImGuiConstants.TREE_NODE_FLAGS_LEAF | ImGuiConstants.TREE_NODE_FLAGS_NO_TREE_PUSH_ON_OPEN
 
-				if is_item_clicked():
-					node_clicked = i
+					tree_node_ex(i, node_flags, "Selectable Leaf %d" % i)
 
-		if node_clicked != -1:
-			# only single selected
-			_demo_selection_mask = (1 << node_clicked)
+					if is_item_clicked():
+						node_clicked = i
 
-		if _demo_align_label_with_current_x_position:
-			indent(get_tree_node_to_label_spacing())
+			if node_clicked != -1:
+				# only single selected
+				_demo_selection_mask = (1 << node_clicked)
 
-		tree_pop()
+			if _demo_align_label_with_current_x_position:
+				indent(get_tree_node_to_label_spacing())
+
+			tree_pop()
+			tree_pop()
 		tree_pop()
 
 	if tree_node("Collapsing Headers"):
@@ -1233,9 +1269,203 @@ then use this texture_id to image and image_button methods to show it.""")
 	
 	# combo
 	if tree_node("Combo"):
+		_demo_flags = checkbox_flags("ImGuiConstants.COMBO_FLAGS_POPUP_ALIGN_LEFT", _demo_flags, ImGuiConstants.COMBO_FLAGS_POPUP_ALIGN_LEFT)
+		same_line()
+		helper_marker("Only makes a difference if the popup is larger than the combo")
+
+		_demo_flags = checkbox_flags("ImGuiConstants.COMBO_FLAGS_NO_ARROW_BUTTON", _demo_flags, ImGuiConstants.COMBO_FLAGS_NO_ARROW_BUTTON)
+
+		if _demo_flags & ImGuiConstants.COMBO_FLAGS_NO_ARROW_BUTTON:
+			_demo_flags &= ~ImGuiConstants.COMBO_FLAGS_NO_PREVIEW
+
+		_demo_flags = checkbox_flags("ImGuiConstants.COMBO_FLAGS_NO_PREVIEW", _demo_flags, ImGuiConstants.COMBO_FLAGS_NO_PREVIEW)
 		
+		if _demo_flags & ImGuiConstants.COMBO_FLAGS_NO_PREVIEW:
+			_demo_flags &= ~ImGuiConstants.COMBO_FLAGS_NO_ARROW_BUTTON
+	
+		var items:= ["AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK", "LLLLLLL", "MMMM", "OOOOOOO"]
+		var combo_label = items[_demo_item_current_idx]
+
+		if begin_combo("combo 1", combo_label, _demo_flags):
+			for n in range(len(items)):
+				var is_selected:= _demo_item_current_idx == n
+
+				if selectable(items[n], is_selected):
+					_demo_item_current_idx = n
+
+				if is_selected:
+					set_item_default_focus()
+
+			end_combo()
 
 		tree_pop()
+
+	# selectables
+	if tree_node("Selectables"):
+		if tree_node("Basic"):
+			if selectable("1. I am selectable", _demo_selections[0]):
+				_demo_selections[0] = !_demo_selections[0]
+				
+			if selectable("2. I am selectable", _demo_selections[1]):
+				_demo_selections[1] = !_demo_selections[1]
+				
+			text("3. I am not selectable")
+			if selectable("4. I am selectable", _demo_selections[3]):
+				_demo_selections[3] = !_demo_selections[3]
+
+			if selectable("5. I am double clickable", _demo_selections[4], ImGuiConstants.SELECTABLE_FLAGS_ALLOW_DOUBLE_CLICK):
+				if is_mouse_double_clicked(ImGuiConstants.MOUSE_BUTTON_LEFT):
+					_demo_selections[4] = !_demo_selections[4]
+
+			tree_pop()
+
+		if tree_node("Selection State: Single Selection"):
+			for n in range(5):
+				if selectable("Object %d" % n, _demo_selected == n):
+					_demo_selected = n
+					
+			tree_pop()
+
+		# no multiple selection by holding CTRL key
+		# TODO: seems we lost all all the key modifiers now
+		if tree_node("Rendering more text into the same line"):
+			if selectable("main.c", _demo_selections2[0]):
+				_demo_selections2[0] = !_demo_selections2[0]
+			same_line(300)
+			text("2,345 bytes")
+
+			if selectable("Hello.cpp", _demo_selections2[1]):
+				_demo_selections2[1] = !_demo_selections2[1]
+			same_line(300)
+			text("12,345 bytes")
+
+			if selectable("Hello.h", _demo_selections2[2]):
+				_demo_selections2[2] = !_demo_selections2[2]
+			same_line(300)
+			text("2,345 bytes")
+
+			tree_pop()
+
+		if tree_node("In columns"):
+			if begin_table("split1", 3, ImGuiConstants.TABLE_FLAGS_RESIZABLE):
+				for i in range(10):
+					table_next_column()
+					if selectable("Item %d" % i, _demo_selections3[i]):
+						_demo_selections3[i] = !_demo_selections3[i]
+
+				end_table()
+			separator()
+			if begin_table("split2", 3, ImGuiConstants.TABLE_FLAGS_RESIZABLE):
+				for i in range(10):
+					table_next_row()
+					table_next_column()
+					
+					if selectable("Item %d" % i, _demo_selections3[i], ImGuiConstants.SELECTABLE_FLAGS_SPAN_ALL_COLUMNS):
+						_demo_selections3[i] = !_demo_selections3[i]
+					
+					table_next_column()
+					text("Some other contents")
+					table_next_column()
+					text("123456")
+				end_table()
+
+			tree_pop()
+
+		tree_pop()
+
+	# no PushStyleVar and PopStyleVar
+	if tree_node("Text Input"):
+		if tree_node("Multi-line Text Input"):
+			_demo_input_flags = checkbox_flags("ImGuiConstants.INPUT_TEXT_FLAGS_READONLY", _demo_input_flags, ImGuiConstants.INPUT_TEXT_FLAGS_READONLY)
+			_demo_input_flags = checkbox_flags("ImGuiConstants.INPUT_TEXT_FLAGS_ALLOW_TAB_INPUT", _demo_input_flags, ImGuiConstants.INPUT_TEXT_FLAGS_ALLOW_TAB_INPUT)
+			_demo_input_flags = checkbox_flags("ImGuiConstants.INPUT_TEXT_FLAGS_CTRL_ENTER_FOR_NEWLINE", _demo_input_flags, ImGuiConstants.INPUT_TEXT_FLAGS_CTRL_ENTER_FOR_NEWLINE)
+			_demo_multi_line_text = input_text_multipleline("##source", _demo_multi_line_text, 1024 * 16, Vector2(-FLOAT_POSITIVE_MIN, get_text_line_height() * 16), _demo_input_flags)
+
+			tree_pop()
+
+		# not support callback, so no text filter
+		
+		if tree_node("Password Input"):
+			_demo_password = input_text("password", _demo_password, 64, ImGuiConstants.INPUT_TEXT_FLAGS_PASSWORD)
+			same_line()
+			helper_marker("Display all characters as '*'.\nDisable clipboard cut and copy.\nDisable logging.\n")
+			_demo_password = input_text_with_hint("password (w/ hint)", "<password>", _demo_password, 64, ImGuiConstants.INPUT_TEXT_FLAGS_PASSWORD)
+			_demo_password = input_text("password (clear)", _demo_password, 64)
+			
+			tree_pop()
+
+		tree_pop()
+
+	# plots
+	if tree_node("Plots Widgets"):
+		_demo_animate = checkbox("Animate", _demo_animate)
+
+		plot_lines("Frame Times", _demo_plot_arr1)
+
+		# no dynamic generated plot lines
+
+		tree_pop()
+
+	# color/picker
+	if tree_node("Color/Picker Widgets"):
+		_demo_alpha_preview = checkbox("With Alpha Preview", _demo_alpha_preview)
+		_demo_alpha_hal_preview = checkbox("With Half Alpha Preview", _demo_alpha_hal_preview)
+		
+		_demo_options_menu = checkbox("With Options Menu", _demo_options_menu)
+		same_line()
+		helper_marker("Right-click on the individual color widget to show options.")
+		
+		_demo_hdr = checkbox("With HDR", _demo_hdr)
+		same_line()
+		helper_marker("Currently all this does is to lift the 0..1 limits on dragging widgets.")
+
+		var misc_flags = ImGuiConstants.COLOR_EDIT_FLAGS_NONE
+
+		if _demo_hdr:
+			misc_flags |= ImGuiConstants.COLOR_EDIT_FLAGS_HDR
+
+		if _demo_alpha_hal_preview:
+			misc_flags |= ImGuiConstants.COLOR_EDIT_FLAGS_ALPHA_PREVIEW_HALF
+
+		if _demo_alpha_preview:
+			misc_flags |= ImGuiConstants.COLOR_EDIT_FLAGS_ALPHA_PREVIEW
+
+		if not _demo_options_menu:
+			misc_flags |= ImGuiConstants.COLOR_EDIT_FLAGS_NO_OPTIONS
+
+		text("Color widget:")
+		same_line()
+		helper_marker(
+			"Click on the color square to open a color picker.\n" +
+			"CTRL+click on individual component to input value.\n")
+
+		_demo_color = color_edit4("MyColor##1", _demo_color, misc_flags)
+
+		text("Color widget HSV with Alpha:")
+		_demo_color = color_edit4("MyColor##2", _demo_color, ImGuiConstants.COLOR_EDIT_FLAGS_DISPLAY_HSV | misc_flags)
+
+		text("Color widget with Float Display:")
+		_demo_color = color_edit4("MyColor##2f", _demo_color, ImGuiConstants.COLOR_EDIT_FLAGS_FLOAT | misc_flags)
+
+		text("Color button with Picker:")
+		same_line()
+		helper_marker(
+			"With the ImGuiColorEditFlags_NoInputs flag you can hide all the slider/text inputs.\n" +
+			"With the ImGuiColorEditFlags_NoLabel flag you can pass a non-empty label which will only " +
+			"be used for the tooltip and picker popup.")
+		_demo_color = color_edit4("MyColor##3", _demo_color, ImGuiConstants.COLOR_EDIT_FLAGS_NO_INPUTS | ImGuiConstants.COLOR_EDIT_FLAGS_NO_LABEL | misc_flags)
+
+		text("Color button only")
+		
+		_demo_no_border = checkbox("ImGuiConstants.COLOR_EDIT_FLAGS_NO_BORDER", _demo_no_border)
+		
+		# TODO: our color button cannot change the color, we can wrap the (is_clicked, color) with a structure
+		# but not sure how to pass it to gdscript
+		_demo_color = color_button()
+
+		tree_pop()
+
+	tree_pop()
 
 
 func _show_demo_window_layout() -> void:

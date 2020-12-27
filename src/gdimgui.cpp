@@ -228,6 +228,8 @@ void GDImGui::_register_methods()
     REGISTER_METHOD(pop_style_color);
     REGISTER_METHOD(set_tooltip);
     REGISTER_METHOD(get_cursor_screen_pos);
+    REGISTER_METHOD(is_mouse_clicked);
+    REGISTER_METHOD(is_mouse_double_clicked);
 }
 
 GDImGui::GDImGui()
@@ -2165,4 +2167,14 @@ Vector2 GDImGui::get_cursor_screen_pos()
     ImVec2 pos = ImGui::GetCursorScreenPos();
 
     return Vector2(pos.x, pos.y);
+}
+
+bool GDImGui::is_mouse_double_clicked(int mouse_button)
+{
+    return ImGui::IsMouseDoubleClicked(mouse_button);
+}
+
+bool GDImGui::is_mouse_clicked(int mouse_button, bool repeat)
+{
+    return ImGui::IsMouseClicked(mouse_button, repeat);
 }
